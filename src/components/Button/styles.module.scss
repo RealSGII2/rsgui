@@ -1,0 +1,186 @@
+@use '../../theme.scss' as theme;
+@use '../../styles/mixins.scss' as mixins;
+
+.button {
+    @include mixins.base;
+    @include theme.font-button;
+    border: 0;
+    height: 32px;
+    padding: 0 1rem;
+    background-color: transparent;
+    border-radius: theme.$border-radius;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 68px;
+    user-select: none;
+    //pointer-events: none;
+
+    &.look-filled {
+        transition: background-color theme.$transition;
+
+        @include mixins.color using ($color) {
+            background-color: $color;
+
+            @if lightness($color) > theme.$lightness-threshold {
+                color: #000;
+            } @else {
+                color: #fff;
+            }
+
+            &:hover {
+                background-color: darken($color, theme.$color-change)
+            }
+
+            &:active {
+                background-color: darken($color, theme.$color-change*2)
+            }
+
+            &:disabled {
+                $col: invert(theme.$base-theme);
+                background-color: transparentize($color: invert(theme.$base-theme), $amount: 0.72);
+            }
+        }
+    }
+
+    &.look-outline, &.look-outlined {
+        transition: border-color theme.$transition, color theme.$transition, background-color theme.$transition;
+
+        @include mixins.color using ($color) {
+            border: solid 1px transparentize($color: $color, $amount: 0.7);
+            color: $color;
+
+            &:hover {
+                $col: darken($color, theme.$color-change * 1);
+                border-color: $col;
+                color: $col;
+            }
+
+            &:active {
+                $col: darken($color, theme.$color-change*2);
+                background-color: transparentize($color: $col, $amount: 1 - (theme.$color-change * 0.06));
+                border-color: $col;
+                color: $col;
+            }
+        }
+    }
+
+    &.look-text {
+        transition: color theme.$transition, background-color theme.$transition;
+
+        @include mixins.color using ($color) {
+            color: $color;
+
+            &:hover {
+                $col: darken($color, theme.$color-change * 2);
+                color: $col;
+            }
+
+            &:active {
+                $col: darken($color, theme.$color-change*4);
+                background-color: transparentize($color: $col, $amount: 0.95);
+                color: $col;
+            }
+        }
+    }
+
+    &.look-ghost {
+        transition: color theme.$transition, background-color theme.$transition;
+
+        @include mixins.color using ($color) {
+            color: $color;
+            background-color: transparentize($color: $color, $amount: 0.8);
+
+            &:hover {
+                $col: darken($color, theme.$color-change);
+                background-color: transparentize($color: $col, $amount: 0.8 - (theme.$color-change * 0.02));
+                color: $col;
+            }
+
+            &:active {
+                $col: darken($color, theme.$color-change*2);
+                background-color: transparentize($color: $col, $amount: 0.8 - (theme.$color-change * 0.04));
+                color: $col;
+            }
+
+            &:disabled {
+                $col: invert(theme.$base-theme);
+                background-color: transparentize($color: invert(theme.$base-theme), $amount: 0.8);
+            }
+        }
+    }
+
+    &.look-inverted {
+        transition: color theme.$transition, background-color theme.$transition;
+
+        @include mixins.color using ($color) {
+            color: $color;
+            background-color: #fff;
+
+            &:hover {
+                $col: darken($color, theme.$color-change);
+                background-color: darken(#fff, theme.$color-change);
+                color: $col;
+            }
+
+            &:active {
+                $col: darken($color, theme.$color-change*2);
+                background-color: darken(#fff, theme.$color-change*2);
+                color: $col;
+            }
+
+            &:disabled {
+                background-color: rgba(255, 255, 255, 0.36);
+            }
+        }
+    }
+
+    &.elevated {
+        &:not(.look-ghost):not(.look-outline):not(.look-outlined):not(.look-text) {
+            transition: box-shadow theme.$transition, color theme.$transition, background-color theme.$transition;
+            
+            @include mixins.elevation(2);
+
+            &:hover {
+                @include mixins.elevation(6);
+            }
+        }
+    }
+
+    &.pill {
+        border-radius: 999px;
+        padding: 0 1.5em;
+    }
+
+    $sizes: (
+        small: (padding: 1em, height: 32px, font-size: 0.875rem),
+        medium: (padding: 1.05em, height: 38px, font-size: 0.95rem),
+        large: (padding: 1.1em, height: 42px, font-size: 1rem),
+    );
+
+    @each $name, $val in $sizes {
+        &.size-#{$name} {
+            padding: 0 map-get($val, "padding");
+
+            &.pill {
+                padding: 0 (map-get($val, "padding") + 0.5em);
+            }
+
+            height: map-get($val, "height");
+            font-size: map-get($val, "font-size") !important;
+
+            span {
+                font-size: inherit !important;
+            }
+        }
+    }
+
+    &:disabled {
+        $col: transparentize($color: invert(theme.$base-theme), $amount: 0.64);
+        color: $col !important;
+        border-color: $col !important;
+        cursor: not-allowed;
+        box-shadow: none;
+    }
+}

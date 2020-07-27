@@ -1,0 +1,26 @@
+@use './theme.scss' as theme;
+
+* {
+    box-sizing: border-box;
+    word-wrap: normal;
+    overflow-wrap: break-word;
+}
+
+::selection {
+    color: white;
+    background-color: map-get($map: theme.$colors, $key: "brand");
+}
+
+html, body, :global(#___gatsby), :global(#gatsby-focus-wrapper) {
+    width: 100vw;
+    height: 100vh;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    @include theme.font-body;
+}
+
+div[role="group"][tabindex] {
+    height: 100%;
+}
