@@ -1,0 +1,72 @@
+@use '../../theme.scss' as theme;
+@use '../../styles/mixins.scss' as mixins;
+
+$margin: 0 0 10px 0;
+
+.typography- {
+    @include mixins.base;
+    
+    &body {
+        @include theme.font-body;
+        margin: $margin;
+    }
+
+    &heading1, &h1 {
+        @include theme.font-heading1;
+        margin: $margin;
+    }
+
+    &heading2, &h2 {
+        @include theme.font-heading2;
+        margin: $margin;
+    }
+
+    &heading3, &h3 {
+        @include theme.font-heading3;
+        margin: $margin;
+    }
+
+    &heading4, &h4 {
+        @include theme.font-heading4;
+        margin: $margin;
+    }
+
+    &heading5, &h5 {
+        @include theme.font-heading5;
+        margin: $margin;
+    }
+
+    &heading6, &h6 {
+        @include theme.font-heading6;
+        margin: $margin;
+    }
+
+    &subheading1, &sh1 {
+        @include theme.font-subheading1;
+        margin: $margin;
+    }
+
+    &subheading2, &sh2 {
+        @include theme.font-subheading2;
+        margin: $margin;
+    }
+
+    &caption {
+        @include theme.font-caption;
+        margin: $margin;
+    }
+
+    &button {
+        @include theme.font-button;
+        font-size: 0.875rem;
+    }
+
+    &overline {
+        @include theme.font-overline;
+        margin: $margin;
+    }
+
+    &label {
+        @include theme.font-label;
+    }
+}

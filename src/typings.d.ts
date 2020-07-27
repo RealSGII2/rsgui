@@ -5,4 +5,4 @@ declare module '*.module.scss' {
 
 declare module 'classnames'
 
-declare module 'styled-components'
+declare module 'mdi-react/MenuIcon'

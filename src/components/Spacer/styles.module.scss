@@ -1,0 +1,7 @@
+@use '../../theme.scss' as theme;
+@use '../../styles/mixins.scss' as mixins;
+
+.spacer {
+    @include mixins.base;
+    flex: 1 0 auto
+}

@@ -1,0 +1,84 @@
+@use '../../theme.scss' as theme;
+@use '../../styles/mixins.scss' as mixins;
+@use 'sass:color';
+
+$gutter: 10px;
+
+.list {
+    @include mixins.base;
+    
+    display: flex;
+    flex-direction: column;
+
+    &.look-block {
+        margin: 0;
+    }
+
+    &.look-menu {
+        & > *:not(.list-item) {
+            margin: 5px 0
+        }
+        
+        .list-item {
+            margin: $gutter/2 $gutter;
+            border-radius: theme.$border-radius;
+            padding: .7rem .8rem;
+            min-height: 20px;
+
+            &:first-child {
+                margin-top: $gutter;
+            }
+
+            &:last-child {
+                margin-bottom: $gutter;
+            }
+        }
+    }
+
+    &.look-rounded {
+        padding: $gutter $gutter 0 0;
+
+        .list-item {
+            border-radius: 0 9999px 9999px 0;
+        }
+    }
+
+    &:not(.static) {
+        .list-item {
+            cursor: pointer;
+
+            &:not(.active) {
+                &:hover {
+                    background-color: rgba(0, 0, 0, 0+theme.$color-change*1);
+                }
+    
+                &:active {
+                    background-color: rgba(0, 0, 0, 0+theme.$color-change*2);
+                }
+            }
+    
+            &.active {
+                &:hover {
+                    background-color: color.change(map-get(theme.$colors, "brand"), $alpha: 0+theme.$color-change*0.06)
+                }
+    
+                &:active {
+                    background-color: color.change(map-get(theme.$colors, "brand"), $alpha: 0+theme.$color-change*0.07)
+                }
+            }
+        }
+    }
+
+    .list-item {
+        min-height: 44px;
+        padding: 0.95rem 1rem;
+        align-content: center;
+        transition: background-color theme.$transition;
+        user-select: none;
+
+        &.active {
+            background-color: color.change(map-get(theme.$colors, "brand"), $alpha: 0 + theme.$color-change*0.05);
+            color: map-get(theme.$colors, "brand");
+        }
+    }
+}

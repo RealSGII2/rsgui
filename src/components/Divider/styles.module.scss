@@ -1,0 +1,9 @@
+@use '../../theme.scss' as theme;
+@use '../../styles/mixins.scss' as mixins;
+
+.divider {
+    @include mixins.base;
+    width: 100%;
+    height: 1px;
+    border-top: theme.$border;
+}

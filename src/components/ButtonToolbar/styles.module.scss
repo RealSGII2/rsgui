@@ -1,0 +1,12 @@
+@use '../../theme.scss' as theme;
+@use '../../styles/mixins.scss' as mixins;
+
+.button-toolbar {
+    @include mixins.base;
+    
+    margin-bottom: 10px;
+
+    *:not(:first-child) {
+        margin-left: 10px
+    }
+}

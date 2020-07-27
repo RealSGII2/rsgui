@@ -1,0 +1,177 @@
+/* eslint-disable react/no-did-update-set-state */
+// It's bugging out and throwing exceptions even when variables are used
+/* eslint-disable no-unused-vars */
+import React from 'react'
+import classnames from 'classnames'
+import styles from './styles.module.scss'
+
+function useWindowSize () {
+  const isClient = typeof window === 'object'
+
+  function getSize () {
+    return {
+      width: isClient ? window.innerWidth : 0,
+      height: isClient ? window.innerHeight : 0
+    }
+  }
+
+  const [windowSize, setWindowSize] = React.useState(getSize)
+
+  React.useEffect(() => {
+    if (!isClient) {
+      return
+    }
+
+    function handleResize () {
+      setWindowSize(getSize())
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => { window.removeEventListener('resize', handleResize) }
+  }, [])
+
+  return windowSize
+}
+
+type Props = {
+  children: React.ReactNode;
+  drawerOpen: boolean;
+  onClose?: () => void;
+  simple?: boolean;
+  modal?: boolean;
+}
+
+type State = {
+  small: boolean;
+  isOpen: boolean;
+  scrim: boolean;
+}
+
+export type ComponentProps = Props & React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>
+
+class LayoutObj extends React.Component<ComponentProps, State> {
+  state: State = {
+    small: this.props.modal || false,
+    isOpen: this.props.drawerOpen,
+    scrim: this.props.drawerOpen
+  }
+
+  static Drawer: any
+  static Content: any
+
+  Scrim: React.RefObject<HTMLDivElement>
+  ScrimListener: any;
+
+  constructor (props: ComponentProps) {
+    super(props)
+    this.Scrim = React.createRef()
+    this.HandleScrim = this.HandleScrim.bind(this)
+  }
+
+  componentDidUpdate (oldProps: ComponentProps) {
+    if (oldProps.drawerOpen !== this.props.drawerOpen) {
+      this.setState({ isOpen: this.props.drawerOpen })
+
+      if (this.props.drawerOpen === false) {
+        setTimeout(() => {
+          this.setState({ scrim: false })
+        }, 200)
+      } else {
+        this.setState({ scrim: true })
+      }
+    }
+  }
+
+  componentDidMount () {
+    const wait = setInterval(function (this: LayoutObj) {
+      if (this.Scrim.current != null) {
+        // this.setState({ isOpen: true })
+        this.ScrimListener = this.Scrim.current.addEventListener('click', this.HandleScrim)
+        clearInterval(wait)
+      }
+    }.bind(this), 100)
+  }
+
+  componentWillUnmount () {
+    if (this.Scrim.current == null) return
+    this.Scrim.current.removeEventListener('click', this.ScrimListener)
+  }
+
+  HandleScrim () {
+    if (this.props.onClose === undefined) return
+    this.props.onClose()
+  }
+
+  render () {
+    const windowSize = useWindowSize()
+
+    const {
+      drawerOpen,
+      children,
+      simple,
+      ...baseDivProps
+    } = this.props
+
+    const isSmall = this.state.small
+
+    const res = (windowSize.width < 1024) || false
+    if (res !== this.state.small) this.setState({ small: res })
+
+    const classes = classnames({
+      [styles.layout]: true,
+      [styles['scrim-open']]: this.state.scrim,
+      [styles['drawer-open']]: this.state.isOpen,
+      [styles.small]: isSmall,
+      [styles.simple]: simple
+    })
+
+    return (
+      <div className={classes} {...baseDivProps}>
+        <div className={styles['drawer-scrim']} ref={this.Scrim} />
+        {children}
+      </div>
+    )
+  }
+}
+
+LayoutObj.Drawer = class extends React.Component<{}, {}> {
+  render () {
+    const {
+      children,
+      ...baseDivProps
+    } = this.props
+
+    const classes = classnames({
+      [styles.drawer]: true
+    })
+
+    return (
+      <div className={styles['drawer-frame']}>
+        <aside className={classes} {...baseDivProps}>
+          {children}
+        </aside>
+      </div>
+    )
+  }
+}
+
+LayoutObj.Content = class extends React.Component<{}, {}> {
+  render () {
+    const {
+      children,
+      ...baseDivProps
+    } = this.props
+
+    const classes = classnames({
+      [styles.content]: true
+    })
+
+    return (
+      <main className={classes} {...baseDivProps}>
+        {children}
+      </main>
+    )
+  }
+}
+
+export const Layout = LayoutObj
