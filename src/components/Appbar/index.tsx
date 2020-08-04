@@ -3,19 +3,19 @@
 import React from 'react'
 import classnames from 'classnames'
 import MenuIcon from 'mdi-react/MenuIcon'
-import { Spacer } from '../Spacer/index'
+import Spacer from '../Spacer/index'
 import styles from './styles.module.scss'
 
 type Props = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   title: string;
-  showMenu: boolean;
-  onMenuClick: (...args: any[]) => void;
+  showMenu?: boolean;
+  onMenuClick?: (...args: any[]) => void;
 }
 
 export type ComponentProps = Props & React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>
 
-export class Appbar extends React.Component<ComponentProps, {}> {
+export default class Appbar extends React.Component<ComponentProps, {}> {
   render () {
     const {
       children,
@@ -30,10 +30,16 @@ export class Appbar extends React.Component<ComponentProps, {}> {
       [styles.appbar]: true
     })
 
+    const Click = () => {
+      if (onMenuClick) {
+        onMenuClick()
+      }
+    }
+
     return (
       <div className={classes} {...baseProps}>
-        {showMenu && (
-          <button className={styles['menu-button']} onClick={onMenuClick}>
+        {(showMenu || onMenuClick !== undefined) && (
+          <button className={styles['menu-button']} onClick={Click}>
             <MenuIcon />
           </button>
         )}

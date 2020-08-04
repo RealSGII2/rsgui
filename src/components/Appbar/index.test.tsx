@@ -1,4 +1,4 @@
-import { Appbar } from '.'
+import Appbar from '.'
 
 describe('Appbar', () => {
   it('is truthy', () => {

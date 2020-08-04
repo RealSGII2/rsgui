@@ -1,4 +1,4 @@
-import { Card } from '.'
+import Card from '.'
 
 describe('Card', () => {
   it('is truthy', () => {

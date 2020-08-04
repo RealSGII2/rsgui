@@ -5,17 +5,24 @@ import React from 'react'
 import classnames from 'classnames'
 import styles from './styles.module.scss'
 
-function useWindowSize () {
+type SizeObject = {
+  width: number;
+  height: number;
+}
+
+type ROProps = {
+  onChange: (size: SizeObject) => void
+}
+
+function ResiveObserver (props: ROProps) {
   const isClient = typeof window === 'object'
 
-  function getSize () {
+  function getSize (): SizeObject {
     return {
       width: isClient ? window.innerWidth : 0,
       height: isClient ? window.innerHeight : 0
     }
   }
-
-  const [windowSize, setWindowSize] = React.useState(getSize)
 
   React.useEffect(() => {
     if (!isClient) {
@@ -23,19 +30,23 @@ function useWindowSize () {
     }
 
     function handleResize () {
-      setWindowSize(getSize())
+      props.onChange(getSize())
     }
 
     window.addEventListener('resize', handleResize)
     return () => { window.removeEventListener('resize', handleResize) }
   }, [])
 
-  return windowSize
+  // props.onChange(getSize())
+
+  return (
+    <div />
+  )
 }
 
 type Props = {
   children: React.ReactNode;
-  drawerOpen: boolean;
+  drawerOpen?: boolean;
   onClose?: () => void;
   simple?: boolean;
   modal?: boolean;
@@ -45,15 +56,20 @@ type State = {
   small: boolean;
   isOpen: boolean;
   scrim: boolean;
+  size: SizeObject;
 }
 
 export type ComponentProps = Props & React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>
 
-class LayoutObj extends React.Component<ComponentProps, State> {
+export default class Layout extends React.Component<ComponentProps, State> {
   state: State = {
     small: this.props.modal || false,
-    isOpen: this.props.drawerOpen,
-    scrim: this.props.drawerOpen
+    isOpen: this.props.drawerOpen || false,
+    scrim: this.props.drawerOpen || false,
+    size: {
+      width: 0,
+      height: 0
+    }
   }
 
   static Drawer: any
@@ -70,7 +86,7 @@ class LayoutObj extends React.Component<ComponentProps, State> {
 
   componentDidUpdate (oldProps: ComponentProps) {
     if (oldProps.drawerOpen !== this.props.drawerOpen) {
-      this.setState({ isOpen: this.props.drawerOpen })
+      this.setState({ isOpen: this.props.drawerOpen || false })
 
       if (this.props.drawerOpen === false) {
         setTimeout(() => {
@@ -83,7 +99,7 @@ class LayoutObj extends React.Component<ComponentProps, State> {
   }
 
   componentDidMount () {
-    const wait = setInterval(function (this: LayoutObj) {
+    const wait = setInterval(function (this: Layout) {
       if (this.Scrim.current != null) {
         // this.setState({ isOpen: true })
         this.ScrimListener = this.Scrim.current.addEventListener('click', this.HandleScrim)
@@ -103,8 +119,6 @@ class LayoutObj extends React.Component<ComponentProps, State> {
   }
 
   render () {
-    const windowSize = useWindowSize()
-
     const {
       drawerOpen,
       children,
@@ -114,7 +128,7 @@ class LayoutObj extends React.Component<ComponentProps, State> {
 
     const isSmall = this.state.small
 
-    const res = (windowSize.width < 1024) || false
+    const res = (this.state.size.width < 1264) || false
     if (res !== this.state.small) this.setState({ small: res })
 
     const classes = classnames({
@@ -127,6 +141,7 @@ class LayoutObj extends React.Component<ComponentProps, State> {
 
     return (
       <div className={classes} {...baseDivProps}>
+        <ResiveObserver onChange={(size: SizeObject) => { this.setState({ size }) }} />
         <div className={styles['drawer-scrim']} ref={this.Scrim} />
         {children}
       </div>
@@ -134,7 +149,7 @@ class LayoutObj extends React.Component<ComponentProps, State> {
   }
 }
 
-LayoutObj.Drawer = class extends React.Component<{}, {}> {
+Layout.Drawer = class extends React.Component<{}, {}> {
   render () {
     const {
       children,
@@ -155,7 +170,7 @@ LayoutObj.Drawer = class extends React.Component<{}, {}> {
   }
 }
 
-LayoutObj.Content = class extends React.Component<{}, {}> {
+Layout.Content = class extends React.Component<{}, {}> {
   render () {
     const {
       children,
@@ -174,4 +189,4 @@ LayoutObj.Content = class extends React.Component<{}, {}> {
   }
 }
 
-export const Layout = LayoutObj
+// export const Layout = LayoutObj

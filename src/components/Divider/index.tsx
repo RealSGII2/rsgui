@@ -3,7 +3,7 @@
 import React from 'react'
 import styles from './styles.module.scss'
 
-export class Divider extends React.Component<{}, {}> {
+export default class Divider extends React.Component<{}, {}> {
   render () {
     return (
       <div className={styles.divider} />

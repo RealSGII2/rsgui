@@ -1,4 +1,4 @@
-import { List } from '.'
+import List from '.'
 
 describe('List', () => {
   it('is truthy', () => {

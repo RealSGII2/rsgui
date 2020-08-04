@@ -1,7 +1,7 @@
 {
-  "name": "rsg-ui-ts",
-  "version": "1.0.0",
-  "description": "Made with create-react-library",
+  "name": "rsgui",
+  "version": "2.0.0",
+  "description": "A UI ",
   "author": "RealSGII2",
   "license": "MIT",
   "repository": "RealSGII2/rsg-ui-ts",
@@ -56,16 +56,17 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "^3.4.1",
-    "typescript": "^3.7.5"
-  },
-  "files": [
-    "dist"
-  ],
-  "dependencies": {
+    "typescript": "^3.7.5",
     "@types/styled-components": "^5.1.1",
     "classnames": "^2.2.6",
     "mdi-react": "^7.3.0",
     "sass": "^1.26.10",
     "styled-components": "^5.1.1"
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    
   }
 }

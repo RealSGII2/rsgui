@@ -1,4 +1,4 @@
-import { ButtonToolbar } from '.'
+import ButtonToolbar from '.'
 
 describe('ButtonToolbar', () => {
   it('is truthy', () => {

@@ -1,4 +1,4 @@
-import { Layout } from '.'
+import Layout from '.'
 
 describe('Layout', () => {
   it('is truthy', () => {

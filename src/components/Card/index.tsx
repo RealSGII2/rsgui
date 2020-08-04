@@ -2,7 +2,8 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
 import classnames from 'classnames'
-import { Button as ActionButton } from '../Button'
+import { ColorType } from '../../utils'
+import ActionButton from '../Button'
 import styles from './styles.module.scss'
 
 type Props = {
@@ -11,17 +12,19 @@ type Props = {
   actions?: {
     label: string;
     look?: 'filled' | 'outlined' | 'ghost' | 'text' | 'inverted';
+    color?: ColorType;
     onClick?: (...args: any[]) => void;
   }[];
   elevated?: boolean;
   bordered?: boolean;
   selected?: boolean;
-  onClick?: boolean;
+  fluid?: boolean;
+  onClick?: (e: MouseEvent) => void;
 }
 
 export type ComponentProps = Props & React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>
 
-export class Card extends React.Component<ComponentProps, {}> {
+export default class Card extends React.Component<ComponentProps, {}> {
   constructor (props: ComponentProps) {
     super(props)
     this.HandleClick = this.HandleClick.bind(this)
@@ -42,6 +45,7 @@ export class Card extends React.Component<ComponentProps, {}> {
       bordered,
       selected,
       onClick,
+      fluid,
       ...baseProps
     } = this.props
 
@@ -50,7 +54,8 @@ export class Card extends React.Component<ComponentProps, {}> {
       [styles.interactable]: onClick !== undefined,
       [styles['toolbar-border']]: bordered,
       [styles.elevated]: elevated,
-      [styles.selected]: selected
+      [styles.selected]: selected,
+      [styles.fluid]: fluid
     })
 
     return (
@@ -73,11 +78,12 @@ export class Card extends React.Component<ComponentProps, {}> {
               const {
                 look,
                 label,
-                onClick
+                onClick,
+                color
               } = action
 
               return (
-                <ActionButton key={Math.floor(Math.random() * 999999999999999999999)} look={look} onClick={onClick}>
+                <ActionButton key={Math.floor(Math.random() * 999999999999999999999)} look={look} color={color || 'brand'} onClick={onClick}>
                   {label}
                 </ActionButton>
               )

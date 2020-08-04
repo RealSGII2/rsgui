@@ -3,7 +3,7 @@
 import React from 'react'
 import styles from './styles.module.scss'
 
-export class ButtonToolbar extends React.Component<{}, {}> {
+export default class ButtonToolbar extends React.Component<{}, {}> {
   render () {
     const {
       children,

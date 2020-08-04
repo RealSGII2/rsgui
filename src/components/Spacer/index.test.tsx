@@ -1,4 +1,4 @@
-import { Spacer } from '.'
+import Spacer from '.'
 
 describe('Spacer', () => {
   it('is truthy', () => {

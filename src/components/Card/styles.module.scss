@@ -61,6 +61,10 @@ $padding: 1rem;
         }
     }
 
+    &.fluid {
+        width: 100%;
+    }
+
     .content {
         padding: $padding;
 

@@ -22,7 +22,7 @@ type ItemState = {
 
 export type ItemComponentProps = ItemProps & React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>
 
-class ListObj extends React.Component<ComponentProps, {}> {
+export default class List extends React.Component<ComponentProps, {}> {
   static Item: any;
 
   render () {
@@ -45,7 +45,7 @@ class ListObj extends React.Component<ComponentProps, {}> {
   }
 }
 
-ListObj.Item = class extends React.Component<ItemComponentProps, ItemState> {
+List.Item = class extends React.Component<ItemComponentProps, ItemState> {
   state: ItemState = {
     active: this.props.active || false
   }
@@ -77,5 +77,3 @@ ListObj.Item = class extends React.Component<ItemComponentProps, ItemState> {
     )
   }
 }
-
-export const List = ListObj

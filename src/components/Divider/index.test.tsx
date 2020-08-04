@@ -1,4 +1,4 @@
-import { Divider } from '.'
+import Divider from '.'
 
 describe('Divider', () => {
   it('is truthy', () => {

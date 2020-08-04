@@ -1,4 +1,4 @@
-import { Textbox } from '.'
+import Textbox from '.'
 
 describe('Textbox', () => {
   it('is truthy', () => {

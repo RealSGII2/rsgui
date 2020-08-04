@@ -16,7 +16,7 @@ type Props = {
 
 export type ComponentProps = Props & React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>
 
-export class Button extends React.Component<ComponentProps, {}> {
+export default class Button extends React.Component<ComponentProps, {}> {
   render () {
     const {
       children,
@@ -40,7 +40,9 @@ export class Button extends React.Component<ComponentProps, {}> {
 
     return (
       <button className={classes} {...baseProps}>
-        {children}
+        <span>
+          {children}
+        </span>
       </button>
     )
   }

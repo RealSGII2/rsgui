@@ -1,4 +1,4 @@
-import { Typography } from '.'
+import Typography from '.'
 
 describe('Typography', () => {
   it('is truthy', () => {

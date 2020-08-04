@@ -2,17 +2,17 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
 import classnames from 'classnames'
-import { Typography } from '../Typography'
+import Typography from '../Typography'
 import styles from './styles.module.scss'
 
 type Props = {
-  label: string;
-  inputSize: 'small' | 'medium' | 'large';
+  label?: string;
+  inputSize?: 'small' | 'medium' | 'large';
 }
 
 export type ComponentProps = Props & React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 
-export class Textbox extends React.Component<ComponentProps, {}> {
+export default class Textbox extends React.Component<ComponentProps, {}> {
   render () {
     const {
       label,

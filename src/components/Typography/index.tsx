@@ -6,7 +6,7 @@ import styles from './styles.module.scss'
 
 type Props = {
   children: React.ReactNode;
-  type: 'h1' |
+  type?: 'h1' |
   'heading1' |
   'h2' |
   'heading2' |
@@ -32,7 +32,7 @@ type Props = {
 
 export type ComponentProps = Props & React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>
 
-export class Typography extends React.Component<ComponentProps, {}> {
+export default class Typography extends React.Component<ComponentProps, {}> {
   render () {
     const {
       children,
@@ -41,7 +41,7 @@ export class Typography extends React.Component<ComponentProps, {}> {
     } = this.props
 
     const classes = classnames({
-      [styles[`typography-${type}`]]: true
+      [styles[`typography-${type || 'body'}`]]: true
     })
 
     return (
